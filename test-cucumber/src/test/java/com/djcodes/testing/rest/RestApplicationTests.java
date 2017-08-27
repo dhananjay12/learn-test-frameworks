@@ -1,16 +1,18 @@
 package com.djcodes.testing.rest;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+import org.junit.runner.RunWith;
+import cucumber.api.junit.Cucumber;
+import cucumber.api.CucumberOptions;
+
+@RunWith(Cucumber.class)
+@CucumberOptions(
+		plugin="pretty",
+        features = "src/test/resources/",
+        glue = "com.djcodes.testing"
+)
 public class RestApplicationTests {
 
-	@Test
-	public void contextLoads() {
-	}
+
 
 }

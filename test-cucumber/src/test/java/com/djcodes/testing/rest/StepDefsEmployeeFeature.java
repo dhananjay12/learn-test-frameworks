@@ -19,30 +19,35 @@ import cucumber.api.java.en.When;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ContextConfiguration
-public class StepDefsWelcomeFeature {
+public class StepDefsEmployeeFeature {
 	@Autowired
 	private TestRestTemplate restTemplate;
 
-	private String caller; // input
 
-	private ResponseEntity<String> response; // output
+	private ResponseEntity<String> response;
 
-	@Given("^client makes a GET call$")
-	public void useCaller(String caller) {
-		this.caller = caller;
+	
+	@Given("^employee services are up$")
+	public void checkIfEmployeeServicesAreUp() {
+		System.out.println("Employee services are up");
 	}
-
+	
 	@When("^the client calls /employee/welcome$")
 	public void requestWelcome() {
 		response = restTemplate.exchange("/employee/welcome", HttpMethod.GET, null, String.class);
 	}
+	
+	@When("^the client calls the search api with an (.*)$")
+	public void getEmployee(String input) {
+		response = restTemplate.exchange("/employee/"+input, HttpMethod.GET, null, String.class);
+	}
 
-	@Then("^the client receives status code of (.*)$")
+	@Then("^the client receives status code of (\\d+)$")
 	public void shouldGetResponseWithHttpStatusCode(int statusCode) {
 		assertThat(statusCode,is(equalTo(response.getStatusCodeValue())));
 	}
 
-	@And("^the client receives string containing (.*)$")
+	@And("^the client receives string containing \"(.*)\"$")
 	public void theResponseShouldContainTheMessage(String message) {
 		assertThat(response.getBody(),containsString(message));
 	}
