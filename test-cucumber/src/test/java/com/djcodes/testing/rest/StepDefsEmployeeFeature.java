@@ -24,7 +24,7 @@ public class StepDefsEmployeeFeature {
 	private TestRestTemplate restTemplate;
 
 
-	private ResponseEntity<String> response;
+	private ResponseEntity<?> response;
 
 	
 	@Given("^employee services are up$")
@@ -41,6 +41,11 @@ public class StepDefsEmployeeFeature {
 	public void getEmployee(String input) {
 		response = restTemplate.exchange("/employee/"+input, HttpMethod.GET, null, String.class);
 	}
+	
+	@When("^the client calls search employees whose salary is greater than (\\d+.\\d+)$")
+	public void searchBySalaryGreaterThan(float input) {
+		response = restTemplate.exchange("/employee/searchBySalaryGreaterThan?amt="+input, HttpMethod.POST, null, Employee[].class);
+	}
 
 	@Then("^the client receives status code of (\\d+)$")
 	public void shouldGetResponseWithHttpStatusCode(int statusCode) {
@@ -49,6 +54,14 @@ public class StepDefsEmployeeFeature {
 
 	@And("^the client receives string containing \"(.*)\"$")
 	public void theResponseShouldContainTheMessage(String message) {
-		assertThat(response.getBody(),containsString(message));
+		assertThat(response.getBody().toString(),containsString(message));
+	}
+	
+	@And("^the client receives an array of eployees whose salary is greater than (\\d+.\\d+)$")
+	public void searchBySalaryGreaterThanResponse(float expectedOutput) {
+		Employee[] emps=(Employee[]) response.getBody();
+		for (int i = 0; i < emps.length; i++) {
+			assertThat("check if salary is greater than ",emps[i].getSalary()>expectedOutput);
+		}
 	}
 }

@@ -22,3 +22,14 @@ Background:
   		| 3   | 200        |
   		| asd | 400        |
   		| 123 | 404        |
+  		
+  @Search
+  Scenario: Client wants to search employees having salary greater than 
+  	When the client calls search employees whose salary is greater than 95000.00
+  	Then the client receives status code of 200
+  	And the client receives an array of eployees whose salary is greater than 95000.00
+  	
+  	
+  	
+  	
+  	
