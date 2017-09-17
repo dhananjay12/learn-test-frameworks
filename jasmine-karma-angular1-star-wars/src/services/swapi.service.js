@@ -1,19 +1,27 @@
 angular.module('starWarsModule', [])
-    .factory('swapi', function () {
+    .factory('swapi', function ($http, $q) {
         var service = {};
+        var baseUrl = 'https://swapi.co/api/';
+
+        function httpPromise(url) {
+            var deferred = $q.defer();
+            $http.get(url)
+                .then(function successCallback(data) {
+                        deferred.resolve(data);
+                    },
+                    function errorCallback(data) {
+                        deferred.reject();
+                    });
+
+            return deferred.promise;
+        }
+
+
         service.search = function (query) {
-                return {
-                    "title": "The Force Awakens",
-                    "director": "J. J. Abrams",
-                    "release_date": "2015-12-11"
-                };
-            },
-            service.searchById = function (query) {
-                return {
-                    "title": "The Phantom Menace",
-                    "director": "George Lucas",
-                    "release_date": "1999-05-19",
-                };
-            }
+            return httpPromise(baseUrl + '?search=' + encodeURIComponent(query));
+        };
+        service.searchById = function (query) {
+            return httpPromise(baseUrl + query);
+        }
         return service;
     });
