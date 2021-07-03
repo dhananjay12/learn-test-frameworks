@@ -1,4 +1,4 @@
-package com.djcodes.testing.rest;
+package com.djcodes.testing.rest.controller;
 
 public class Employee {
 	

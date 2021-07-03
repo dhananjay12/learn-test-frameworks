@@ -4,8 +4,8 @@ Feature: EMPLOYEE
 
 Background: 
 	Given employee services are up
-	
-	@Welcome
+
+  @Welcome
   Scenario: client calls the welcome api
     When the client calls /employee/welcome 
     Then the client receives status code of 200

@@ -1,4 +1,4 @@
-package com.djcodes.testing.rest;
+package com.djcodes.testing.rest.controller;
 
 import java.util.ArrayList;
 import java.util.List;
